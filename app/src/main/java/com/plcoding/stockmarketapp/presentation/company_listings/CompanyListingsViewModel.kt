@@ -17,15 +17,10 @@ import javax.inject.Inject
 @HiltViewModel
 class CompanyListingsViewModel @Inject constructor(
     private val repository: StockRepository
-): ViewModel() {
+): ViewModel(){
 
     var state by mutableStateOf(CompanyListingsState())
-
-    private var searchJob: Job? = null
-
-    init {
-        getCompanyListings()
-    }
+    private var searchJob: Job? =null
 
     fun onEvent(event: CompanyListingsEvent) {
         when(event) {
@@ -33,7 +28,7 @@ class CompanyListingsViewModel @Inject constructor(
                 getCompanyListings(fetchFromRemote = true)
             }
             is CompanyListingsEvent.OnSearchQueryChange -> {
-                state = state.copy(searchQuery = event.query)
+                state = state.copy (searchQuery = event.query)
                 searchJob?.cancel()
                 searchJob = viewModelScope.launch {
                     delay(500L)
@@ -46,23 +41,26 @@ class CompanyListingsViewModel @Inject constructor(
     private fun getCompanyListings(
         query: String = state.searchQuery.lowercase(),
         fetchFromRemote: Boolean = false
-    ) {
+    )   {
         viewModelScope.launch {
             repository
-                .getCompanyListings(fetchFromRemote, query)
+                .getCompanyListings(fetchFromRemote,query)
                 .collect { result ->
                     when(result) {
                         is Resource.Success -> {
                             result.data?.let { listings ->
-                                state = state.copy(
+                                state = state.copy (
                                     companies = listings
                                 )
                             }
                         }
                         is Resource.Error -> Unit
+
                         is Resource.Loading -> {
-                            state = state.copy(isLoading = result.isLoading)
+                            state = state.copy (isLoading = result.isLoading)
                         }
+
+                        else -> {}
                     }
                 }
         }

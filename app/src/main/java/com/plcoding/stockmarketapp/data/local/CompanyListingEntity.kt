@@ -10,3 +10,4 @@ data class CompanyListingEntity(
     val exchange: String,
     @PrimaryKey val id: Int? = null
 )
+

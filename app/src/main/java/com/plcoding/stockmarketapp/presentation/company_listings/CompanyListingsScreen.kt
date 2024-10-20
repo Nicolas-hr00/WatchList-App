@@ -20,30 +20,31 @@ import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
-@Destination(start = true)
-fun CompanyListingsScreen(
+@Destination (start = true)//start destination
+fun CompnayListingsScreen (
     navigator: DestinationsNavigator,
     viewModel: CompanyListingsViewModel = hiltViewModel()
 ) {
+
     val swipeRefreshState = rememberSwipeRefreshState(
-        isRefreshing = viewModel.state.isRefreshing
+        isRefreshing = viewModel.state.isRefreshing  //this refresh the layour
     )
     val state = viewModel.state
-    Column(
+    Column (
         modifier = Modifier.fillMaxSize()
-    ) {
+    ){
         OutlinedTextField(
             value = state.searchQuery,
             onValueChange = {
                 viewModel.onEvent(
-                    CompanyListingsEvent.OnSearchQueryChange(it)
+                    CompanyListingsEvent.OnSearchQueryChange(it) //sending the events to the screen to the view model
                 )
             },
             modifier = Modifier
                 .padding(16.dp)
                 .fillMaxWidth(),
-            placeholder = {
-                Text(text = "Search...")
+            placeholder = { //this is the search text
+                Text(text= "Search...")
             },
             maxLines = 1,
             singleLine = true
@@ -53,18 +54,18 @@ fun CompanyListingsScreen(
             onRefresh = {
                 viewModel.onEvent(CompanyListingsEvent.Refresh)
             }
-        ) {
-            LazyColumn(
-                modifier = Modifier.fillMaxSize()
-            ) {
-                items(state.companies.size) { i ->
+        ){
+            LazyColumn (
+                modifier = Modifier.fillMaxWidth()
+            ){
+                items(state.companies.size){ i ->
                     val company = state.companies[i]
                     CompanyItem(
                         company = company,
                         modifier = Modifier
                             .fillMaxWidth()
-                            .clickable {
-                                // TODO: Navigate to detail screen
+                            .clickable{
+                                //TODO: navigate to details screen
                             }
                             .padding(16.dp)
                     )
