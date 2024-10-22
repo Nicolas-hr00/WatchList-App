@@ -37,3 +37,43 @@ Company Item
 Dependency injection (GIVING AN OBJECT its instance variables)
 *constructor injection we need (THIS IS A CONCEPT)
 STOCK APLICATION a class, also added on the manifest. 
+
+
+THE DETAILS SCREEENS START HERE, PLUS FETCHING THE JSON DATA WITH THE API 
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working state
+Working stateWorking state
+Working state
+
