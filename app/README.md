@@ -41,5 +41,5 @@ STOCK APLICATION a class, also added on the manifest.
 
 THE DETAILS SCREEENS START HERE, PLUS FETCHING THE JSON DATA WITH THE API 
 
-
-
+CompanyDTO 
+    -Kotlin representation fo a JSON file (of a JSON response)
