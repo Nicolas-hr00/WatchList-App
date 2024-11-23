@@ -1,4 +1,4 @@
-package com.plcoding.stockmarketapp.presentation.company_listings
+package com.plcoding.stockmarketapp.presentation.company_listings.company_listings
 
 import com.plcoding.stockmarketapp.domain.model.CompanyListing
 

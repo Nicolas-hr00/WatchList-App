@@ -1,4 +1,4 @@
-package com.plcoding.stockmarketapp.presentation.company_listings
+package com.plcoding.stockmarketapp.presentation.company_listings.company_listings
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.MaterialTheme
