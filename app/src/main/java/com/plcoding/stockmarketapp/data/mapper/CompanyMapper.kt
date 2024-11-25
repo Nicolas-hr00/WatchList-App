@@ -19,7 +19,7 @@ fun CompanyListing.toCompanyListingEntity(): CompanyListingEntity{
     return CompanyListingEntity(
         name = name,
         symbol = symbol,
-        exchange = exchange,
+        exchange = exchange
     )
 }
 
@@ -29,6 +29,6 @@ fun CompanyInfoDto.toCompanyInfo(): CompanyInfo {
         description = description ?: "",
         name = name ?: "",
         country = country ?: "",
-        industry = industry ?: "",
+        industry = industry ?: ""
     )
 }

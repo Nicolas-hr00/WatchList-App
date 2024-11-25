@@ -1,3 +1,4 @@
+
 package com.plcoding.stockmarketapp.di
 
 import com.plcoding.stockmarketapp.data.csv.CSVParser

@@ -1,9 +1,7 @@
+
 package com.plcoding.stockmarketapp.data.repository
 
-import com.opencsv.CSVReader
 import com.plcoding.stockmarketapp.data.csv.CSVParser
-import com.plcoding.stockmarketapp.data.csv.CompanyListingsParser
-import com.plcoding.stockmarketapp.data.csv.IntradayInfoParser
 import com.plcoding.stockmarketapp.data.local.StockDatabase
 import com.plcoding.stockmarketapp.data.mapper.toCompanyInfo
 import com.plcoding.stockmarketapp.data.mapper.toCompanyListing
@@ -18,7 +16,6 @@ import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import retrofit2.HttpException
 import java.io.IOException
-import java.io.InputStreamReader
 import javax.inject.Inject
 import javax.inject.Singleton
 
@@ -44,8 +41,8 @@ class StockRepositoryImpl @Inject constructor( //this is the one that access the
                 data = localListings.map {it.toCompanyListing()}
             ))
 
-            val isDBEmpty = localListings.isEmpty() && query.isBlank()
-            val shouldJustLoadFromCache = !isDBEmpty && !fetchFromRemote // we need to check is the DB populated already, if it is already populated we can just reload from the cash
+            val isDbEmpty = localListings.isEmpty() && query.isBlank()
+            val shouldJustLoadFromCache = !isDbEmpty && !fetchFromRemote // we need to check is the DB populated already, if it is already populated we can just reload from the cash
             if (shouldJustLoadFromCache) {
                 emit(Resource.Loading(false))
                 return@flow
@@ -67,8 +64,8 @@ class StockRepositoryImpl @Inject constructor( //this is the one that access the
 
 
             remoteListings?.let {listings->
-                emit(Resource.Success(listings))
-                emit(Resource.Loading(false))
+//                emit(Resource.Success(listings))
+//                emit(Resource.Loading(false))
                 dao.clearCompanyListings()
                 dao.insertCompanyListings(
                     listings.map { it.toCompanyListingEntity() }
@@ -83,9 +80,9 @@ class StockRepositoryImpl @Inject constructor( //this is the one that access the
         }
     }
 
-    override suspend fun getIntradayInfo(Symbol: String): Resource<List<IntradayInfo>> {
+    override suspend fun getIntradayInfo(symbol: String): Resource<List<IntradayInfo>> {
         return try {
-            val response = api.getIntradayInfo(Symbol)
+            val response = api.getIntradayInfo(symbol)
             val results = intradayInfoParser.parse(response.byteStream())
             Resource.Success(results)
         } catch (e: IOException) {
@@ -101,9 +98,9 @@ class StockRepositoryImpl @Inject constructor( //this is the one that access the
         }
     }
 
-    override suspend fun getCompanyInfo(Symbol: String): Resource<CompanyInfo> {
+    override suspend fun getCompanyInfo(symbol: String): Resource<CompanyInfo> {
         return try {
-            val result = api.getCompanyInfo(Symbol)
+            val result = api.getCompanyInfo(symbol)
             Resource.Success(result.toCompanyInfo())
         }
         catch (e: IOException) {
@@ -114,7 +111,7 @@ class StockRepositoryImpl @Inject constructor( //this is the one that access the
         } catch(e: HttpException) {
             e.printStackTrace()
             Resource.Error (
-                message = "Coulnt load intraday info"
+                message = "Couln't load company info"
             )
         }
     }

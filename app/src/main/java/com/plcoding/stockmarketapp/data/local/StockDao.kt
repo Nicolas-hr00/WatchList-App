@@ -14,7 +14,7 @@ interface StockDao {
     )
 
     @Query("DELETE FROM companylistingentity")
-    suspend fun clearCompanyListings(): Int//clear everything on the data base
+    suspend fun clearCompanyListings() //clear everything on the data base
 
     @Query(
         """

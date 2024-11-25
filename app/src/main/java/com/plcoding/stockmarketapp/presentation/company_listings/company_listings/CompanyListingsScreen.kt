@@ -1,3 +1,4 @@
+
 package com.plcoding.stockmarketapp.presentation.company_listings.company_listings
 
 import androidx.compose.foundation.clickable
@@ -6,6 +7,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.Divider
 import androidx.compose.material.OutlinedTextField
 import androidx.compose.material.Text
@@ -15,12 +17,15 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.google.accompanist.swiperefresh.SwipeRefresh
 import com.google.accompanist.swiperefresh.rememberSwipeRefreshState
+//import com.plcoding.stockmarketapp.presentation.company_listings.CompanyItem
+import com.plcoding.stockmarketapp.presentation.company_listings.destinations.CompanyInfoScreenDestination
+//import com.plcoding.stockmarketapp.presentation.destinations.CompanyInfoScreenDestination
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
 @Composable
-@Destination (start = true)//start destination
-fun CompnayListingsScreen (
+@Destination(start = true)//start destination
+fun CompanyListingsScreen(
     navigator: DestinationsNavigator,
     viewModel: CompanyListingsViewModel = hiltViewModel()
 ) {
@@ -55,7 +60,7 @@ fun CompnayListingsScreen (
             }
         ){
             LazyColumn (
-                modifier = Modifier.fillMaxWidth()
+                modifier = Modifier.fillMaxSize()
             ){
                 items(state.companies.size){ i ->
                     val company = state.companies[i]
@@ -64,7 +69,9 @@ fun CompnayListingsScreen (
                         modifier = Modifier
                             .fillMaxWidth()
                             .clickable{
-                                //TODO: navigate to details screen
+                                navigator.navigate(
+                                    CompanyInfoScreenDestination(company.symbol)
+                                )
                             }
                             .padding(16.dp)
                     )

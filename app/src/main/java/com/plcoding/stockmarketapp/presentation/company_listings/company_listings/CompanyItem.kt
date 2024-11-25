@@ -1,3 +1,4 @@
+
 package com.plcoding.stockmarketapp.presentation.company_listings.company_listings
 
 import androidx.compose.foundation.layout.*
@@ -23,7 +24,7 @@ fun CompanyItem(
         verticalAlignment = Alignment.CenterVertically
     ) {
         Column (
-            Modifier.weight(1f)
+            modifier.weight(1f)
         ) {
             Row (
                 modifier = Modifier.fillMaxWidth()

@@ -1,3 +1,4 @@
+
 package com.plcoding.stockmarketapp.presentation.company_listings.company_listings
 
 import androidx.compose.runtime.getValue
@@ -60,10 +61,9 @@ class CompanyListingsViewModel @Inject constructor(
                         is Resource.Error -> Unit
 
                         is Resource.Loading -> {
-                            state = state.copy (isLoading = result.isLoading)
+                            state = state.copy(isLoading = result.isLoading)
                         }
 
-                        else -> {}
                     }
                 }
         }
