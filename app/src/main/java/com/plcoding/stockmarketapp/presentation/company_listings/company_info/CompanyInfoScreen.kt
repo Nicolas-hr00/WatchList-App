@@ -17,6 +17,7 @@ import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.TransformOrigin.Companion.Center
 import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
@@ -27,6 +28,8 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.plcoding.stockmarketapp.data.remote.dto.CompanyInfo
 import com.plcoding.stockmarketapp.presentation.company_info.CompanyInfoViewModel
 import com.plcoding.stockmarketapp.ui.theme.DarkBlue
+import com.plcoding.stockmarketapp.ui.theme.DarkBrown
+import com.plcoding.stockmarketapp.ui.theme.DarkYellow
 import com.ramcosta.composedestinations.annotation.Destination
 
 @Composable
@@ -41,63 +44,68 @@ fun CompanyInfoScreen(
         Column (
             modifier = Modifier
                 .fillMaxSize()
-                .background(DarkBlue)
+                .background(DarkYellow)
                 .padding(16.dp)
         ) {
             state.company?.let { company ->
                 Text(
                     text = company.name,
                     fontWeight = FontWeight.Bold,
-                    fontSize = 14.sp,
+                    fontSize = 17.sp,
                     overflow = TextOverflow.Ellipsis,
-                    modifier = Modifier.fillMaxWidth()
+                    modifier = Modifier.fillMaxWidth(),
+                    color = DarkBrown
                 )
                 Spacer (modifier = Modifier.height(8.dp))
-                 Text(
-                        text = company.symbol,
-                        fontStyle = FontStyle.Italic,
-                        fontSize = 14.sp,
-                        modifier = Modifier.fillMaxWidth()
-                    )
-                    Spacer (modifier = Modifier.height(8.dp))
-                    Divider (
-                       modifier = Modifier
-                           .fillMaxWidth()
-                           .padding()
-                    )
-                Spacer (modifier = Modifier.height(8.dp))
-
                 Text(
-                    text = "TESTING AND WORKS : ${company.industry}",
-                    fontSize = 14.sp,
+                    text = company.symbol,
+                    fontStyle = FontStyle.Italic,
+                    fontSize = 17.sp,
                     modifier = Modifier.fillMaxWidth(),
-                    overflow = TextOverflow.Ellipsis
-                )
-
-                Spacer (modifier = Modifier.height(8.dp))
-                Text(
-                    text = "Country: ${company.country}",
-                    fontSize = 14.sp,
-                    modifier = Modifier.fillMaxWidth(),
-                    overflow = TextOverflow.Ellipsis
+                    color = DarkBrown
                 )
                 Spacer (modifier = Modifier.height(8.dp))
                 Divider (
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding()
+                        .padding(horizontal = 8.dp)
+                )
+                Spacer (modifier = Modifier.height(8.dp))
+
+                Text(
+                    text = "Industry: ${company.industry}",
+                    fontSize = 17.sp,
+                    modifier = Modifier.fillMaxWidth(),
+                    overflow = TextOverflow.Ellipsis,
+                    color = DarkBrown
+                )
+
+                Spacer (modifier = Modifier.height(8.dp))
+                Text(
+                    text = "Country: ${company.country}",
+                    fontSize = 17.sp,
+                    modifier = Modifier.fillMaxWidth(),
+                    overflow = TextOverflow.Ellipsis,
+                    color = DarkBrown
+                )
+                Spacer (modifier = Modifier.height(8.dp))
+                Divider (
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding(horizontal = 8.dp)
                 )
                 Spacer (modifier = Modifier.height(8.dp))
                 Text(
-                    text = company.description,
-                    fontSize = 12.sp,
+                    text = company.description ?: "No description available",
+                    fontSize = 15.sp,
                     modifier = Modifier.fillMaxWidth(),
+                    color = DarkBrown
                 )
                 if (state.stockInfos.isNotEmpty())
 
                 {
                     Spacer (modifier = Modifier.height(16.dp))
-                    Text(text = "Market Summary")
+                    Text(text = "Market Summary", color = DarkBrown)
                     Spacer(modifier = Modifier.height(32.dp))
 
                 }
@@ -105,17 +113,18 @@ fun CompanyInfoScreen(
         }
     }
 
-    Box (
-        modifier = Modifier.fillMaxSize(),
-        contentAlignment = Alignment.Center
-    ) {
-        if(state.isLoading) {
-            CircularProgressIndicator()
-        } else if (state.error != null) {
-            Text (
-                text = state.error,
-                color = MaterialTheme.colors.error
-            )
+    if (state.isLoading || state.error != null) {
+        Box(
+            modifier = Modifier.fillMaxSize(),
+            contentAlignment = Alignment.Center
+        ) {
+            when {
+                state.isLoading -> CircularProgressIndicator()
+                state.error != null -> Text(
+                    text = state.error,
+                    color = MaterialTheme.colors.error
+                )
+            }
         }
     }
 

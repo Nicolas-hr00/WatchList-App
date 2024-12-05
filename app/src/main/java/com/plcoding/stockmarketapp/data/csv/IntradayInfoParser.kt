@@ -17,32 +17,29 @@ import java.time.LocalDate
 import java.time.LocalDateTime
 import javax.inject.Inject
 import javax.inject.Singleton
-
 @Singleton
 class IntradayInfoParser @Inject constructor(): CSVParser<IntradayInfo> {
 
-//    @RequiresApi(Build.VERSION_CODES.O)
     override suspend fun parse(stream: InputStream): List<IntradayInfo> {
-        val csvReader = CSVReader(InputStreamReader(stream))
         return withContext(Dispatchers.IO) {
-            csvReader
-                .readAll()
-                .drop(1)
-                .mapNotNull { line ->
-                    val timestamp = line.getOrNull(0) ?: return@mapNotNull null
-                    val close = line.getOrNull(4) ?: return@mapNotNull null
-                    val dto = IntradayInfoDto (timestamp, close.toDouble())
-                    dto.toIntradayInfo()
+            val result = mutableListOf<IntradayInfo>()
+            CSVReader(InputStreamReader(stream)).use { csvReader ->
+                csvReader.readNext() // Skip header
+                var line = csvReader.readNext()
+                while (line != null) {
+                    val timestamp = line.getOrNull(0)
+                    val close = line.getOrNull(4)?.toDoubleOrNull()
+                    if (timestamp != null && close != null) {
+                        val dto = IntradayInfoDto(timestamp, close)
+                        val info = dto.toIntradayInfo()
+                        if (info.date.dayOfMonth == LocalDate.now().minusDays(4).dayOfMonth) {
+                            result.add(info)
+                        }
+                    }
+                    line = csvReader.readNext()
                 }
-                .filter {
-                    it.date.dayOfMonth == LocalDate.now().minusDays(4).dayOfMonth
-                }
-                .sortedBy {
-                    it.date.hour
-                }
-                .also {
-                    csvReader.close()
-                }
+                result.sortedBy { it.date.hour }
+            }
         }
     }
 }
